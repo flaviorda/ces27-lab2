@@ -186,13 +186,26 @@ func (server *Server) Voting(key string, quorum int) (string, error) {
 
 // aggregateVotes will select the right value from the votes received.
 func aggregateVotes(votes []*vote) (result string) {
+
+	count := 0
+	vencedor := 0
+	//temp recebe o timestamp do primeiro voto
+	temp := votes[0].timestamp
+	//vai percorrer cada voto verificando se tem um timestamp maior que temp
+	//quando acha um vencedor até o momento, salva o índice em vencedor 
+	//e salva o timestamp em temp
 	for _, vote := range votes {
 		log.Printf("[COORDINATOR] Vote: %v\n", vote.value)
+		if vote.timestamp > temp {
+			vencedor = count
+			temp = vote.timestamp
+		}
+		count++
 	}
 
 	/////////////////////////
 	// YOUR CODE GOES HERE //
 	/////////////////////////
-	result = votes[0].value
+	result = votes[vencedor].value
 	return
 }

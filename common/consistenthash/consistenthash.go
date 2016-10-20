@@ -22,6 +22,20 @@ func (r *Ring) search(key string) int {
     // YOUR CODE GOES HERE //
     /////////////////////////
 
+    hash := hashId(key)
+    id := 0
+    for _, node := range r.Nodes {
+	//A partir do hash da chave ele verifica qual node fica imediatamente a 
+	//direita no anel(primeiro que aparece seguindo no sentido horário)
+	//Ou seja, qual node possui hash maior que o seu
+        if hash < node.HashId {
+            return id
+        }
+        id++
+    }
+    //Se não houver ninguém com um hash maior que o seu, significa q tem q dar a volta no anel
+    //Ou seja o node com o menor hash se torna o node mais a direita (primeiro 
+    //que aparece seguindo no sentido horário)
     return 0
 }
 
